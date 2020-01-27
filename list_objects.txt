@@ -1,0 +1,8 @@
+function
+identifier
+preprocessor directive
+library
+keywrods
+string
+operators
+separators
