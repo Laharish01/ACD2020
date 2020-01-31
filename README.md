@@ -1,1 +1,1 @@
-Repo for ACD lab 2020 in NITK
+Made a few changes to repo
