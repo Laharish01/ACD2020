@@ -1,3 +1,3 @@
 lex prog2.l
 gcc lex.yy.c 
-./a.out
+./a.out testCode.c

@@ -3,80 +3,99 @@
     #include<stdio.h>
     #include<string.h>
     int COMMENT=0;
-    int COUNT[8]={0};
-    char identifiers[10][100]; 
+    int COUNT[8]={0},line = 1;
+    char identifiers[100][100];
+    char keywords[100][100];
+    char operators[100][10]; 
 %}
 identifier [a-zA-Z_][a-zA-Z0-9]*
 
 %%
 #.* {
-        printf("\n%s is a preprocessor directive",yytext);
+        printf("\nline %d : %s -> PREPROCESSOR DIRECTIVE",line,yytext);
     }
 auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|extern|return|union|continue|for|signed|void|do|if|static|while|default|goto|sizeof|volatile|const|float|short {
-        printf("\n %s is KEYWORD", yytext);
+        printf("\nline %d : %s -> KEYWORD",line, yytext);
+        strcpy(keywords[COUNT[1]++],yytext);
     }
 
 "/*" { 
         COMMENT = 1;
-        printf("\n\t %s is a COMMENT",yytext);
+        printf("\nline %d : %s -> COMMENT",line,yytext);
     }
 {identifier}\( {
-        if(!COMMENT)printf("\nFUNCTION \n\t%s",yytext);
-        strcpy(identifiers[COUNT[0]],yytext);
-            COUNT[0]++;
+        if(!COMMENT)printf("\nline %d : %s -> FUNCTION",line,yytext);
+        strcpy(identifiers[COUNT[0]++],yytext);
     }
 \{  {
-        if(!COMMENT)printf("\n BLOCK BEGINS");
+        if(!COMMENT)printf("\nline %d : BLOCK BEGINS",line);
     }
 \}  {
-        if(!COMMENT)printf("BLOCK ENDS ");
+        if(!COMMENT)printf("\nline %d : BLOCK ENDS ",line);
     }
 {identifier}(\[[0-9]*\])? {
         if(!COMMENT){
-            printf("\n %s IDENTIFIER",yytext);
-            strcpy(identifiers[COUNT[0]],yytext);
-            COUNT[0]++;
+            printf("\nline %d : %s -> IDENTIFIER",line,yytext);
+            strcpy(identifiers[COUNT[0]++],yytext);
         }
     }
 \".*\" {
         COMMENT = 0;
-        if(!COMMENT)printf("\n\t %s is a STRING",yytext);
+        if(!COMMENT)printf("\nline %d : %s -> STRING",line,yytext);
     }
 [0-9]+ {
-        if(!COMMENT) printf("\n %s is a NUMBER ",yytext);
+        if(!COMMENT) printf("\nline %d : %s -> NUMBER ",line,yytext);
         }
 \)(\:)? {
         if(!COMMENT)printf("\n\t");ECHO;printf("\n");
     }
 \( ECHO;
 = { 
-    if(!COMMENT)printf("\n\t %s is an ASSIGNMENT OPERATOR",yytext);
+    if(!COMMENT){
+        printf("\nline %d : %s -> ASSIGNMENT OPERATOR",line,yytext);
+        strcpy(operators[COUNT[2]++],yytext);
+    }
 }
 \<= |
 \>= |
 \< |
 == |
 \> {
-        if(!COMMENT) printf("\n\t%s is a RELATIONAL OPERATOR",yytext);
+        if(!COMMENT){
+            printf("\nline %d : %s -> RELATIONAL OPERATOR",line,yytext);
+            strcpy(operators[COUNT[2]++],yytext);
+        }
     }
+\n {
+    line++;
+}
 %%
 
 int main(int argc, char **argv)
 {
-    FILE *file;
-    file=fopen("prog_ex.c","r");
-    if(!file)
-    {
-        printf("could not open the file");
+    if(argc < 2){
+        printf("Enter a file!");
+        return 1;
+    }
+    FILE *inputFile, *outputFile;
+    inputFile = fopen(argv[1], "r");
+    if(!inputFile){
+        printf("Error opening file!");
         exit(0);
     }
-    yyin=file;
+    yyin = inputFile;
     yylex();
+    printf("\n%d",line);
+    printf("\nIDENTIFIERS : ");
+    for(int i = 0;i < COUNT[0];i++)
+        printf("%s, ",identifiers[i]);
+    printf("\nKEYWORDS : ");
+    for(int i = 0;i < COUNT[1];i++)
+        printf("%s, ",keywords[i]);
+    printf("\nOPERATORS : ");
+    for(int i = 0;i < COUNT[2];i++)
+        printf("%s, ",operators[i]);
     printf("\n");
-    printf("%d", COUNT[0]);
-    for(int i = 0;i < COUNT[0];i++){
-        printf("identifiers are %s \n",identifiers[i]);
-    }
     return(0);
 }
 int yywrap()

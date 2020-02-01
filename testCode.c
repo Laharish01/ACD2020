@@ -5,5 +5,6 @@ int main(){
     printf("This is a string");
     /*comment
     vvd*/
+    char c = 'b';
 
 }
