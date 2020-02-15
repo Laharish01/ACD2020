@@ -8,16 +8,6 @@
     char keywords[100][100];
     char operators[100][10]; 
     char separators[100][10]; 
-
-
-
-
-
-
-
-
-
-
     // "/*" { 
     //     COMMENT = 1;
     //     printf("\nline %d : %s -> COMMENT",line,yytext);
@@ -25,8 +15,13 @@
 %}
 identifier [a-zA-Z_][a-zA-Z0-9]*
 separator [{};:,.]
+invalid (^\d)|([^\w_])
+start \/\* 
+end  \*\/ 
 
 %%
+\/\/(.*) ; 
+\/\*(.*\n)*.*\*\/  {};			
 #.* {
         printf("\nline %d : %s -> PREPROCESSOR DIRECTIVE",line,yytext);
     }
@@ -40,6 +35,8 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
 }
 
 
+
+
 {identifier}\( {
         if(!COMMENT)printf("\nline %d : %s -> FUNCTION",line,yytext);
         strcpy(identifiers[COUNT[0]++],yytext);
@@ -51,6 +48,7 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
             strcpy(identifiers[COUNT[0]++],yytext);
         }
     }
+
 \".*\" {
         COMMENT = 0;
         if(!COMMENT)printf("\nline %d : %s -> CHARACTER_ARRAY",line,yytext);
