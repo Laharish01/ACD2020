@@ -7,12 +7,12 @@ int main(){
         char c = 'b';
 //fgeg
 //fsegsdgsdh
-
         char c = 'b';
+
+        if(a>b){
+        c=3;
+    } 1ertW  
+}
 /*cdavsdvda
 faefea
 feafea*/
-        if(a>b){
-        c=3;
-    }  
-}

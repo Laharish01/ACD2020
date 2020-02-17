@@ -12,6 +12,8 @@ identifier [a-zA-Z_][a-zA-Z0-9]*
 separator [{};:,.]
 start \/\* 
 end  \*\/ 
+notid [0-9][a-zA-Z0-9]*
+
 
 %%
 \/\/(.*) ; 
@@ -48,7 +50,11 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
     }
 [0-9]+ {
          printf("\nline %d : %s -> NUMBER ",line,yytext);
-        }
+}
+{notid} {
+    printf("\nline %d : %s -> INVALID IDENTIFIER",line,yytext);
+}
+
 \)(\:)? {
         printf("\n\t");ECHO;printf("\n");
     }
@@ -65,6 +71,9 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
             printf("\nline %d : %s -> RELATIONAL OPERATOR",line,yytext);
             strcpy(operators[COUNT[2]++],yytext);
     }
+
+
+
 \n {
     line++;
 }
