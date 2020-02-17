@@ -2,20 +2,14 @@
 %{
     #include<stdio.h>
     #include<string.h>
-    int COMMENT=0;
     int COUNT[8]={0},line = 1;
     char identifiers[100][100];
     char keywords[100][100];
     char operators[100][10]; 
     char separators[100][10]; 
-    // "/*" { 
-    //     COMMENT = 1;
-    //     printf("\nline %d : %s -> COMMENT",line,yytext);
-    // }
 %}
 identifier [a-zA-Z_][a-zA-Z0-9]*
 separator [{};:,.]
-invalid (^\d)|([^\w_])
 start \/\* 
 end  \*\/ 
 
@@ -30,7 +24,7 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
         strcpy(keywords[COUNT[1]++],yytext);
     }
 {separator} {
-            if(!COMMENT)printf("\nline %d : %s -> SEPARATOR",line,yytext);
+            printf("\nline %d : %s -> SEPARATOR",line,yytext);
             strcpy(separators[COUNT[3]++],yytext);
 }
 
@@ -38,43 +32,38 @@ auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|ex
 
 
 {identifier}\( {
-        if(!COMMENT)printf("\nline %d : %s -> FUNCTION",line,yytext);
+        printf("\nline %d : %s -> FUNCTION",line,yytext);
         strcpy(identifiers[COUNT[0]++],yytext);
     }
 
 {identifier}(\[[0-9]*\])? {
-        if(!COMMENT){
+        
             printf("\nline %d : %s -> IDENTIFIER",line,yytext);
             strcpy(identifiers[COUNT[0]++],yytext);
-        }
+        
     }
 
 \".*\" {
-        COMMENT = 0;
-        if(!COMMENT)printf("\nline %d : %s -> CHARACTER_ARRAY",line,yytext);
+        printf("\nline %d : %s -> CHARACTER_ARRAY",line,yytext);
     }
 [0-9]+ {
-        if(!COMMENT) printf("\nline %d : %s -> NUMBER ",line,yytext);
+         printf("\nline %d : %s -> NUMBER ",line,yytext);
         }
 \)(\:)? {
-        if(!COMMENT)printf("\n\t");ECHO;printf("\n");
+        printf("\n\t");ECHO;printf("\n");
     }
 \( ECHO;
 = { 
-    if(!COMMENT){
         printf("\nline %d : %s -> ASSIGNMENT OPERATOR",line,yytext);
         strcpy(operators[COUNT[2]++],yytext);
-    }
 }
 \<= |
 \>= |
 \< |
 == |
 \> {
-        if(!COMMENT){
             printf("\nline %d : %s -> RELATIONAL OPERATOR",line,yytext);
             strcpy(operators[COUNT[2]++],yytext);
-        }
     }
 \n {
     line++;
