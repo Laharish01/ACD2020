@@ -7,6 +7,9 @@
 %token IF
 %token FOR
 %token NUM
+%token IDENTIFIER
+%token RELATIONALOP
+%token ASSIGNMENTOP
 %start statements 
 %%
 statements : statements statement
@@ -23,6 +26,8 @@ statement : ';'
 
 expression : expression '+' term
            | expression '-' term
+           | expression RELATIONALOP term
+           | expression ASSIGNMENTOP term
            | term
            ;
 
@@ -33,6 +38,7 @@ term : term '*' factor
 
 factor : '(' expression ')'
        | '-' factor
+       | IDENTIFIER
        | NUM
        ;
 %%
@@ -47,5 +53,6 @@ int main() {
     FILE* inputFile = fopen("input.txt","r");
     yyin = inputFile;
     yyparse();
+    printf("OK");
     return 0;
 }
