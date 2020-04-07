@@ -39,30 +39,29 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     else = 258,
-     if = 259,
-     for = 260,
-     expr = 261
+     ELSE = 258,
+     IF = 259,
+     FOR = 260,
+     NUM = 261,
+     IDENTIFIER = 262,
+     RELATIONALOP = 263,
+     ASSIGNMENTOP = 264
    };
 #endif
 /* Tokens.  */
-#define else 258
-#define if 259
-#define for 260
-#define expr 261
+#define ELSE 258
+#define IF 259
+#define FOR 260
+#define NUM 261
+#define IDENTIFIER 262
+#define RELATIONALOP 263
+#define ASSIGNMENTOP 264
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-#line 12 "parGenerator.y"
-{
-    char id;
-}
-/* Line 1529 of yacc.c.  */
-#line 65 "y.tab.h"
-	YYSTYPE;
+typedef int YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
