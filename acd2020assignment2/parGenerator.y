@@ -12,6 +12,7 @@
 %token ASSIGNMENTOP
 %start statements 
 %%
+
 statements : statements statement
       |
       ;
@@ -42,9 +43,10 @@ factor : '(' expression ')'
        | NUM
        ;
 %%
+
 extern int yylineno;
 extern char* yytext;
-yyerror(char *msg) {
+void yyerror(char *msg) {
      printf("%d: %s\n", (yylineno) ,msg);
     exit(0);
 }
