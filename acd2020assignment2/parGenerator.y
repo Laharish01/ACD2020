@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "lex.yy.c"
+int yylex();
+extern FILE* yyin;
+//#include "lex.yy.c"
 %}
 %token ELSE
 %token IF
@@ -13,41 +15,35 @@
 %start statements 
 %%
 
-statements : statements statement
-      |
-      ;
+statements : | statements statement 
 
 statement : ';'
-     | expression ;
+     | expression ';'
      | IF '(' expression ')' statement
-     | IF'(' expression ')' statement ELSE statement 
+     | IF '(' expression ')' statement ELSE statement 
      | FOR '(' expression ';' expression ';' expression ')' statement
      | '{' statements '}'
-     ;
 
 expression : expression '+' term
            | expression '-' term
            | expression RELATIONALOP term
            | expression ASSIGNMENTOP term
            | term
-           ;
 
 term : term '*' factor
      | term '/' factor
      | factor
-     ;
 
 factor : '(' expression ')'
        | '-' factor
        | IDENTIFIER
        | NUM
-       ;
 %%
 
 extern int yylineno;
 extern char* yytext;
-void yyerror(char *msg) {
-     printf("%d: %s\n", (yylineno) ,msg);
+yyerror(char *msg) {
+     printf("%d: %s %s\n", (yylineno),msg, (yytext));
     exit(0);
 }
 

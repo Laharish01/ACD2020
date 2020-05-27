@@ -1,3 +1,4 @@
-lex lexGenerator.l
 yacc -d parGenerator.y
-gcc y.tab.c -ll -ly -w
+lex lexGenerator.l
+gcc lex.yy.c y.tab.c 
+./a.out
