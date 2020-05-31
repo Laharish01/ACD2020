@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "lex.yy.c"
+extern FILE* yyin;
+int yylex();
+void yyerror();
 %}
 %token ELSE
 %token IF
@@ -10,7 +12,8 @@
 %token IDENTIFIER
 %token RELATIONALOP
 %token ASSIGNMENTOP
-%start statements 
+%token INCREMENT
+%start statements
 %%
 
 statements : statements statement
@@ -29,6 +32,7 @@ expression : expression '+' term
            | expression '-' term
            | expression RELATIONALOP term
            | expression ASSIGNMENTOP term
+           | expression INCREMENT
            | term
            ;
 
@@ -48,7 +52,7 @@ extern int yylineno;
 extern char* yytext;
 void yyerror(char *msg) {
      printf("%d: %s\n", (yylineno) ,msg);
-    exit(0);
+     exit(0);
 }
 
 int main() {

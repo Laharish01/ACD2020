@@ -1,9 +1,8 @@
 /* A Bison parser, made by GNU Bison 3.5.1.  */
 
-/* Bison interface for Yacc-like parsers in C
+/* Skeleton interface for Bison GLR parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,11 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+#ifndef YY_YY_PARGENERATOR_TAB_H_INCLUDED
+# define YY_YY_PARGENERATOR_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -59,15 +55,6 @@ extern int yydebug;
     INCREMENT = 265
   };
 #endif
-/* Tokens.  */
-#define ELSE 258
-#define IF 259
-#define FOR 260
-#define NUM 261
-#define IDENTIFIER 262
-#define RELATIONALOP 263
-#define ASSIGNMENTOP 264
-#define INCREMENT 265
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -81,4 +68,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+#endif /* !YY_YY_PARGENERATOR_TAB_H_INCLUDED  */
