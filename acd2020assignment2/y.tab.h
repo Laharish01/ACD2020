@@ -56,7 +56,8 @@ extern int yydebug;
     IDENTIFIER = 262,
     RELATIONALOP = 263,
     ASSIGNMENTOP = 264,
-    INCREMENT = 265
+    INCREMENT = 265,
+    LOWER_THAN_ELSE = 266
   };
 #endif
 /* Tokens.  */
@@ -68,6 +69,7 @@ extern int yydebug;
 #define RELATIONALOP 263
 #define ASSIGNMENTOP 264
 #define INCREMENT 265
+#define LOWER_THAN_ELSE 266
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

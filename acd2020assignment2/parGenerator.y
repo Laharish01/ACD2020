@@ -5,6 +5,7 @@ extern FILE* yyin;
 int yylex();
 void yyerror();
 %}
+%left '+' '-'
 %token ELSE
 %token IF
 %token FOR
@@ -14,6 +15,8 @@ void yyerror();
 %token ASSIGNMENTOP
 %token INCREMENT
 %start statements
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
 %%
 
 statements : statements statement
@@ -21,11 +24,11 @@ statements : statements statement
       ;
 
 statement : ';'
-     | expression ;
-     | IF '(' expression ')' statement
-     | IF'(' expression ')' statement ELSE statement 
-     | FOR '(' expression ';' expression ';' expression ')' statement
-     | '{' statements '}'
+     | expression ';'
+     | IF'(' expression ')' statement %prec LOWER_THAN_ELSE 
+     | IF '(' expression ')' statement ELSE statement 
+     | FOR '(' expression ';' expression ';' expression ')' statement 
+     | '{' statements '}' ;
      ;
 
 expression : expression '+' term
